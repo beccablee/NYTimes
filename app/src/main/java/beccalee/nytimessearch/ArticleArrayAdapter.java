@@ -16,6 +16,8 @@ import com.squareup.picasso.Picasso;
 import java.util.List;
 
 import beccalee.nytimessearch.activities.ArticleActivity;
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 /**
  * Created by beccalee on 6/20/16.
@@ -31,40 +33,18 @@ public class ArticleArrayAdapter extends RecyclerView.Adapter<ArticleArrayAdapte
     public int getItemCount() {
         return articles.size();
     }
-    /*
-    // Define listener member variable
-    private static OnItemClickListener listener;
-    // Define the listener interface
-    public interface OnItemClickListener {
-        void onItemClick(View itemView, int position);
-    }
-    // Define the method that allows the parent activity or fragment to define the listener
-    public void setOnItemClickListener(OnItemClickListener listener) {
-        this.listener = listener;
-    }*/
+
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener  {
-        // Your holder should contain a member variable
-        // for any view that will be set as you render a row
-        public ImageView imageView;
-        public TextView title;
-        public ProgressBar progressBar;
+        @BindView(R.id.ivImage) ImageView imageView;
+        @BindView(R.id.tvTitle) TextView title;
+        @BindView(R.id.pBar) ProgressBar progressBar;
 
-        // We also create a constructor that accepts the entire item row
-        // and does the view lookups to find each subview
         public ViewHolder(View itemView) {
-            // Stores the itemView in a public final member variable that can be used
-            // to access the context from any ViewHolder instance.
             super(itemView);
             context = itemView.getContext();
-
-            imageView = (ImageView) itemView.findViewById(R.id.ivImage);
-            title = (TextView) itemView.findViewById(R.id.tvTitle);
-            progressBar = (ProgressBar) itemView.findViewById(R.id.pBar);
-
-            // Setup the click listener
+            ButterKnife.bind(this, itemView);
             itemView.setOnClickListener(this);
-
         }
 
         //setup listener
@@ -75,7 +55,6 @@ public class ArticleArrayAdapter extends RecyclerView.Adapter<ArticleArrayAdapte
             Intent intent = new Intent(context, ArticleActivity.class);
             intent.putExtra("article", article);
             context.startActivity(intent);
-
         }
     }
 
@@ -83,51 +62,12 @@ public class ArticleArrayAdapter extends RecyclerView.Adapter<ArticleArrayAdapte
         articles = allArticles;
     }
 
-    /*@Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        // get data item for position
-        Article article = this.getItem(position);
-        // check to see if existing view is being reused
-        // not using a recycled view = inflate layout
-        ViewHolder viewHolder;
-        if (convertView == null){
-            viewHolder = new ViewHolder();
-            LayoutInflater inflater = LayoutInflater.from(getContext());
-            convertView = inflater.inflate(R.layout.item_article_result, parent, false);
-            viewHolder.imageView = (ImageView) convertView.findViewById(R.id.ivImage);
-            viewHolder.title = (TextView) convertView.findViewById(R.id.tvTitle);
-            convertView.setTag(viewHolder);
-        }else {
-            viewHolder = (ViewHolder) convertView.getTag();
-        }
-        // find image view
-        //ImageView imageView = (ImageView) convertView.findViewById(R.id.ivImage);
-        // clear out recycled image from convertView from last time
-        viewHolder.title.setText(article.headline);
-        viewHolder.imageView.setImageResource(0);
-        //TextView tvTitle = (TextView) convertView.findViewById(R.id.tvTitle);
-        //tvTitle.setText(article.getHeadline());
-        // populate the thumbnail image
-        // remote download the image in the background
-        String thumbnail = article.getThumbnail();
-
-        if (!TextUtils.isEmpty(thumbnail)){
-            Picasso.with(getContext()).load(thumbnail)
-                    .placeholder(R.drawable.ic_placeholder).into(viewHolder.imageView);
-        }
-        return convertView;
-    }*/
-
 
     @Override
     public ArticleArrayAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         Context context = parent.getContext();
         LayoutInflater inflater = LayoutInflater.from(context);
-
-        // Inflate the custom layout
         View contactView = inflater.inflate(R.layout.item_article_result, parent, false);
-
-        // Return a new holder instance
         ViewHolder viewHolder = new ViewHolder(contactView);
         return viewHolder;
     }

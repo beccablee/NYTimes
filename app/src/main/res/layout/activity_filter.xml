@@ -55,7 +55,8 @@
         android:layout_alignBottom="@+id/tvBegin"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
-        android:layout_toRightOf="@+id/tvValues" />
+        android:layout_toRightOf="@+id/tvValues"
+        android:hint="Select a date" />
 
     <Spinner
         android:id="@+id/spinner"

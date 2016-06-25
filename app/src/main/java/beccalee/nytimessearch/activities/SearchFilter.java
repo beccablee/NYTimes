@@ -17,17 +17,19 @@ import java.util.Calendar;
 import java.util.Locale;
 
 import beccalee.nytimessearch.R;
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 public class SearchFilter extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
-    EditText date;
-    Spinner spinner;
-    CheckBox arts;
-    CheckBox fashion;
-    CheckBox health;
-    CheckBox sports;
-
     Filters filters;
+
+    @BindView(R.id.etDate) EditText date;
+    @BindView(R.id.spinner) Spinner spinner;
+    @BindView(R.id.cbArts) CheckBox arts;
+    @BindView(R.id.cbFashion) CheckBox fashion;
+    @BindView(R.id.cbHealth) CheckBox health;
+    @BindView(R.id.cbSports) CheckBox sports;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,12 +42,7 @@ public class SearchFilter extends AppCompatActivity implements AdapterView.OnIte
     }
 
     public void setupViews(){
-        date = (EditText) findViewById(R.id.etDate);
-        spinner = (Spinner) findViewById(R.id.spinner);
-        arts = (CheckBox) findViewById(R.id.cbArts);
-        fashion = (CheckBox) findViewById(R.id.cbFashion);
-        health = (CheckBox) findViewById(R.id.cbHealth);
-        sports = (CheckBox) findViewById(R.id.cbSports);
+        ButterKnife.bind(this);
 
         arts.setChecked(filters.arts);
         fashion.setChecked(filters.fashion);
@@ -69,7 +66,6 @@ public class SearchFilter extends AppCompatActivity implements AdapterView.OnIte
 
             @Override
             public void onClick(View v) {
-                // Show current date in the date picker
                 int year = c.get(Calendar.YEAR);
                 int month = c.get(Calendar.MONTH);
                 int day = c.get(Calendar.DAY_OF_MONTH);
@@ -115,20 +111,16 @@ public class SearchFilter extends AppCompatActivity implements AdapterView.OnIte
         boolean checked = ((CheckBox) view).isChecked();
         switch(view.getId()) {
             case R.id.cbArts:
-                if (checked) { filters.arts = true; }
-                else { filters.arts = false; }
+                filters.arts = checked;
                 break;
             case R.id.cbFashion:
-                if (checked) { filters.fashion = true; }
-                else { filters.fashion = false; }
+                filters.fashion = checked;
                 break;
             case R.id.cbHealth:
-                if (checked) { filters.health = true; }
-                else { filters.health = false; }
+                filters.health = checked;
                 break;
             case R.id.cbSports:
-                if (checked) { filters.sports = true; }
-                else { filters.sports = false; }
+                filters.sports = checked;
                 break;        }
     }
 

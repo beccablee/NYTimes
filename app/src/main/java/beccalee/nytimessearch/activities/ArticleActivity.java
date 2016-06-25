@@ -14,22 +14,25 @@ import android.webkit.WebViewClient;
 
 import beccalee.nytimessearch.Article;
 import beccalee.nytimessearch.R;
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 public class ArticleActivity extends AppCompatActivity {
 
     private ShareActionProvider miShareAction;
+    @BindView(R.id.wvArticle) WebView webView;
+    @BindView(R.id.toolbar) Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_article);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         Article article = (Article) getIntent().getSerializableExtra("article");
         String url = article.getWebUrl();
 
-        WebView webView = (WebView) findViewById(R.id.wvArticle);
+        ButterKnife.bind(this);
         if (webView != null) {
             webView.setWebViewClient(new WebViewClient() {
                 @Override
@@ -49,15 +52,12 @@ public class ArticleActivity extends AppCompatActivity {
 
         MenuItem item = menu.findItem(R.id.menu_item_share);
         ShareActionProvider miShare = (ShareActionProvider) MenuItemCompat.getActionProvider(item);
-        // Fetch reference to the share action provider
         miShareAction = (ShareActionProvider) MenuItemCompat.getActionProvider(item);
 
         Intent shareIntent = new Intent(Intent.ACTION_SEND);
         shareIntent.setType("text/plain");
 
-        // get reference to WebView
         WebView wvArticle = (WebView) findViewById(R.id.wvArticle);
-        // pass in the URL currently being used by the WebView
         shareIntent.putExtra(Intent.EXTRA_TEXT, wvArticle.getUrl());
 
         miShare.setShareIntent(shareIntent);
